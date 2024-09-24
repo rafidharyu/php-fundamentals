@@ -12,18 +12,11 @@ if (!isset($_SESSION['login'])) {
 $title = "Users";
 require 'layout/header-datatable.php';
 
-$stmt = $pdo->prepare("SELECT * FROM users WHERE is_user = :id_user");
-$stmt->bindParam(':id_user', $_SESSION['id_user']);
-$stmt->execute();
-$users = $stmt->fetchAll();
-
-// if ($_SESSION['role'] == 'operator') {
-//     $users = query("SELECT * FROM users WHERE is_user {$_SESSION['id_user']}");
-// }else{
-//     $users = query("SELECT * FROM users ORDER BY created_at DESC");
-// }
-
-// $users = query("SELECT * FROM users ORDER BY created_at DESC");
+if ($_SESSION['role'] == 'operator') {
+    $users = query("SELECT * FROM users WHERE id_user = {$_SESSION['id_user']}");
+}else{
+    $users = query("SELECT * FROM users ORDER BY created_at DESC");
+}
 
 ?>
 

@@ -128,3 +128,29 @@ function store_user($data)
 
     return $stmt->affected_rows;
 }
+
+// ubah user
+function ubah_user($data)
+{
+    global $db;
+
+    $id = (int)$data['id'];
+    $username = sanitize($data['username']);
+    $email = sanitize($data['email']);
+    $password = sanitize (password_hash($data['password'], PASSWORD_BCRYPT));
+
+    $stmt = $db->prepare("UPDATE users SET username = ?, email = ?, password = ? WHERE id_user = ?");
+    $stmt->bind_param("sssi", $username, $email, $password, $id);
+    $stmt->execute();
+    return $stmt->affected_rows;
+}
+
+// hapus user
+function delete_user($id)
+{
+    global $db;
+    $stmt = $db->prepare("DELETE FROM users WHERE id_user = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    return $stmt->affected_rows;
+}
